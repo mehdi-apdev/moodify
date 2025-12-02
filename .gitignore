@@ -1,0 +1,32 @@
+# ========================
+# OS & Système
+# ========================
+.DS_Store       # Fichiers système Mac
+Thumbs.db       # Fichiers système Windows
+.idea/          # Configuration JetBrains
+.vscode/        # Configuration locale VS Code
+
+# ========================
+# Frontend (Angular)
+# ========================
+node_modules/   # Les librairies téléchargées
+dist/           # Le code compilé 
+.angular/       # Cache Angular
+*.log           # Fichiers de logs d'erreurs
+
+# ========================
+# Backend (Python)
+# ========================
+__pycache__/    # Bytecode compilé par Python (Inutile sur Git)
+*.py[cod]       # Autres formats compilés
+venv/           # Environnement virtuel
+.env            # ⚠️ TRES IMPORTANT : Tes clés secrètes (API Spotify)
+.venv/          # Autre nom courant pour l'env virtuel
+env/
+
+# ========================
+# Divers
+# ========================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
