@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "mock": "json-server --watch mock-db.json --port 3000",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -37,6 +38,7 @@
     "@angular/cli": "^21.0.1",
     "@angular/compiler-cli": "^21.0.0",
     "jsdom": "^27.1.0",
+    "json-server": "^1.0.0-beta.3",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }
