@@ -1,0 +1,19 @@
+// --- Palette de Couleurs ---
+$spotify-green: #1DB954;
+$spotify-black: #191414;
+$spotify-dark-gray: #121212;
+$spotify-light-gray: #282828;
+$spotify-white: #FFFFFF;
+$spotify-subtext: #B3B3B3;
+
+// --- Sémantique ---
+$primary-color: $spotify-green;
+$bg-color: $spotify-dark-gray;
+$card-bg: $spotify-light-gray;
+$text-main: $spotify-white;
+$text-secondary: $spotify-subtext;
+
+// --- Typographie ---
+$font-stack: 'Circular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$border-radius-pill: 500px; // Pour les boutons ronds
+$border-radius-card: 8px;
