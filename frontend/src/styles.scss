@@ -1,1 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
+// 1. Import des variables
+// 1. Ajouter cet import tout en haut
+@use 'sass:color';
+@use 'variables' as *;
+
+// 2. Reset & Base
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: $bg-color;
+  color: $text-main;
+  font-family: $font-stack;
+  -webkit-font-smoothing: antialiased; // Rendu plus net sur Mac
+}
+
+// 3. Composants Globaux (Boutons)
+.btn {
+  border: none;
+  padding: 12px 32px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: $border-radius-pill;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  // Style primaire (Vert Spotify)
+  &.btn-primary {
+    background-color: $primary-color;
+    color: $spotify-white;
+
+    &:hover {
+      background-color: color.adjust($primary-color, $lightness: 5%);
+      transform: scale(1.02); // Petit effet de zoom
+    }
+
+    &:disabled {
+      background-color: $spotify-light-gray;
+      color: $text-secondary;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// 4. Utilitaires
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}

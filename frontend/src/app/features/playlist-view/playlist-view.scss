@@ -1,0 +1,117 @@
+@use 'sass:color';
+@use 'variables' as *;
+
+.playlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+
+  .actions {
+    display: flex;
+    gap: 16px;
+  }
+}
+
+.track-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.track-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  color: $spotify-subtext;
+
+  &:hover {
+    // Utilisation de la nouvelle syntaxe sass:color
+    background-color: color.adjust($spotify-light-gray, $alpha: -0.5);
+
+    .play-btn {
+      opacity: 1; // Affiche le bouton play au survol
+    }
+
+    .track-title {
+      color: $spotify-white;
+    }
+  }
+
+  &.is-playing {
+    background-color: $spotify-light-gray;
+
+    .track-title {
+      color: $spotify-green; // Titre vert quand ça joue
+    }
+    .play-btn {
+      opacity: 1;
+      color: $spotify-white;
+    }
+  }
+}
+
+// Colonnes
+.track-index {
+  width: 30px;
+  text-align: center;
+  margin-right: 16px;
+  font-size: 1rem;
+}
+
+.track-cover {
+  border-radius: 4px;
+  margin-right: 16px;
+}
+
+.track-info {
+  flex: 1; // Prend toute la place dispo
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .track-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: $spotify-white;
+    margin-bottom: 4px;
+  }
+
+  .track-artist {
+    font-size: 0.875rem;
+  }
+}
+
+.play-btn {
+  background: none;
+  border: 1px solid $spotify-subtext;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $spotify-white;
+  cursor: pointer;
+  margin-right: 20px;
+  font-size: 12px;
+  opacity: 0; // Caché par défaut sauf si playing
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: $spotify-white;
+    transform: scale(1.1);
+  }
+
+  &:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+}
+
+.track-meta {
+  width: 50px;
+  text-align: right;
+  font-size: 0.9rem;
+}

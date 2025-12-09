@@ -5,7 +5,7 @@
     "email": "mehdi@moodify.com",
     "images": [
       {
-        "url": "https://i.pravatar.cc/300?img=11",
+        "url": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&h=300",
         "height": 300,
         "width": 300
       }
@@ -14,52 +14,58 @@
   },
   "recommendations": [
     {
-      "id": "0VjIjW4GlUZAMYd2vXMi3b",
+      "id": "1",
       "title": "Blinding Lights",
       "artist": "The Weeknd",
-      "albumCoverUrl": "https://i.scdn.co/image/ab67616d0000b2738863bc11d2aa12b54f5aeb36",
-      "previewUrl": "https://p.scdn.co/mp3-preview/f4c8c07e0e5c4647313a5a401c43058d8396c21a?cid=cfe923b2d660439caf2b557b21f31221",
-      "externalUrl": "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b"
+      "albumCoverUrl": "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&w=300&h=300",
+      "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "externalUrl": "https://open.spotify.com/track/2",
+      "durationMs": 200000
     },
     {
-      "id": "3lo5bwWnKew27Y00fc4w16",
+      "id": "2",
       "title": "Bohemian Rhapsody",
       "artist": "Queen",
-      "albumCoverUrl": "https://i.scdn.co/image/ab67616d0000b273ce4f1737bc8a646c8c4bd25a",
-      "previewUrl": "https://p.scdn.co/mp3-preview/f726715d9a48630739c9f28d9c6c0683056037b5?cid=cfe923b2d660439caf2b557b21f31221",
-      "externalUrl": "https://open.spotify.com/track/3lo5bwWnKew27Y00fc4w16"
+      "albumCoverUrl": "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?auto=format&fit=crop&w=300&h=300",
+      "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+      "externalUrl": "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b",
+      "durationMs": 354000
     },
     {
-      "id": "7qiZfU4dY1lWllzX7mPBI3",
-      "title": "Shape of You (titre très long pour tester l'overflow CSS sur mobile)",
+      "id": "3",
+      "title": "Shape of You",
       "artist": "Ed Sheeran",
-      "albumCoverUrl": "https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96",
-      "previewUrl": "https://p.scdn.co/mp3-preview/7339548839a2633321138b28fb1c69c9b5832a8e?cid=cfe923b2d660439caf2b557b21f31221",
-      "externalUrl": "https://open.spotify.com/track/7qiZfU4dY1lWllzX7mPBI3"
+      "albumCoverUrl": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&h=300",
+      "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+      "externalUrl": "https://open.spotify.com/track/3lo5bwWnKew27Y00fc4w16",
+      "durationMs": 233000
     },
     {
-      "id": "27NovPIUIRrOZoCHxABJwK",
+      "id": "4",
       "title": "Industry Baby",
-      "artist": "Lil Nas X, Jack Harlow",
-      "albumCoverUrl": "https://i.scdn.co/image/ab67616d0000b273ef707b1d31065c2642a8b9e6",
-      "previewUrl": null,
-      "externalUrl": "https://open.spotify.com/track/27NovPIUIRrOZoCHxABJwK"
+      "artist": "Lil Nas X",
+      "albumCoverUrl": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=300&h=300",
+      "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+      "externalUrl": "https://open.spotify.com/track/7qiZfU4dY1lWllzX7mPBI3",
+      "durationMs": 212000
     },
     {
-      "id": "5nF4mjQ9edrQf9o1f22eE5",
+      "id": "5",
       "title": "Levitating",
       "artist": "Dua Lipa",
-      "albumCoverUrl": "https://i.scdn.co/image/ab67616d0000b273217446554477833074d0e722",
-      "previewUrl": "https://p.scdn.co/mp3-preview/0d634125f46452286950346864190c74a00af906?cid=cfe923b2d660439caf2b557b21f31221",
-      "externalUrl": "https://open.spotify.com/track/5nF4mjQ9edrQf9o1f22eE5"
+      "albumCoverUrl": "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&w=300&h=300",
+      "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+      "externalUrl": "https://open.spotify.com/track/27NovPIUIRrOZoCHxABJwK",
+      "durationMs": 203000
     },
     {
-      "id": "0GjEhVRTellaM47kNzF3t7",
+      "id": "6",
       "title": "Nightcall",
       "artist": "Kavinsky",
-      "albumCoverUrl": "https://i.scdn.co/image/ab67616d0000b273934d4680bc7d7e307425145f",
-      "previewUrl": "https://p.scdn.co/mp3-preview/a9c1488c9429110a116b47c0e666a70d90d81b85?cid=cfe923b2d660439caf2b557b21f31221",
-      "externalUrl": "https://open.spotify.com/track/0GjEhVRTellaM47kNzF3t7"
+      "albumCoverUrl": "https://images.unsplash.com/photo-1514525253440-b393452e8d26?auto=format&fit=crop&w=300&h=300",
+      "previewUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+      "externalUrl": "https://open.spotify.com/track/5nF4mjQ9edrQf9o1f22eE5",
+      "durationMs": 258000
     }
   ]
 }
