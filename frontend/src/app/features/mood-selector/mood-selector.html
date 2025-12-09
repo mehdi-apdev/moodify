@@ -1,0 +1,14 @@
+<section class="mood-selector-container">
+  <h2>How are you feeling today?</h2>
+
+  <div class="mood-grid">
+    <button
+      *ngFor="let mood of moods"
+      (click)="onMoodSelect(mood.id)"
+      class="mood-card"
+    >
+      <span class="emoji">{{ mood.emoji }}</span>
+      <span class="label">{{ mood.label }}</span>
+    </button>
+  </div>
+</section>
