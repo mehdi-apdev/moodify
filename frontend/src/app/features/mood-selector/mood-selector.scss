@@ -1,0 +1,56 @@
+// 1. Import des outils globaux
+@use 'sass:color';
+@use 'variables' as *; // Pointe vers src/_variables.scss
+
+.mood-selector-container {
+  text-align: center;
+  padding: 2rem;
+
+  h2 {
+    color: $text-main; // Utilise la variable globale (Blanc)
+    margin-bottom: 2rem;
+    font-family: $font-stack; // Police définie globalement (Circular/Helvetica)
+  }
+}
+
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.mood-card {
+  // Effet "Glassmorphism" basé sur nos variables
+  // change($color, $alpha: 0.1) est plus propre que rgba(255,255,255, 0.1)
+  background-color: color.change($spotify-white, $alpha: 0.1);
+  border: 1px solid color.change($spotify-white, $alpha: 0.15);
+
+  border-radius: $border-radius-card; // Utilise le rayon standard (8px)
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:hover {
+    transform: translateY(-5px);
+    // On augmente légèrement l'opacité au survol
+    background-color: color.change($spotify-white, $alpha: 0.2);
+    border-color: $primary-color; // Petite touche de vert Spotify au survol (optionnel mais sympa)
+  }
+
+  .emoji {
+    font-size: 2.5rem;
+  }
+
+  .label {
+    color: $text-main;
+    font-weight: 500;
+    font-size: 1rem;
+    font-family: $font-stack;
+  }
+}
