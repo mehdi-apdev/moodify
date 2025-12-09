@@ -1,4 +1,6 @@
 // 1. Import des variables
+// 1. Ajouter cet import tout en haut
+@use 'sass:color';
 @use 'variables' as *;
 
 // 2. Reset & Base
@@ -30,7 +32,7 @@ html, body {
     color: $spotify-white;
 
     &:hover {
-      background-color: lighten($primary-color, 5%);
+      background-color: color.adjust($primary-color, $lightness: 5%);
       transform: scale(1.02); // Petit effet de zoom
     }
 

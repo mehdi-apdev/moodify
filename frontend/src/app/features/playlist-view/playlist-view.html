@@ -1,0 +1,58 @@
+<div class="container">
+  <header class="playlist-header">
+    <h1>Your Mood Playlist</h1>
+    <div class="actions">
+      <button class="btn btn-secondary">Regenerate</button>
+      <button class="btn btn-primary">Save to Spotify</button>
+    </div>
+  </header>
+
+  @if (playlist$ | async; as tracks) {
+
+    <div class="track-list">
+      @for (track of tracks; track track.id; let i = $index) {
+
+        <div class="track-row" [class.is-playing]="playingTrackId === track.id">
+
+          <span class="track-index">{{ i + 1 }}</span>
+
+          <img
+            [ngSrc]="track.albumCoverUrl"
+            [alt]="track.title"
+            width="48"
+            height="48"
+            class="track-cover"
+          >
+
+          <div class="track-info">
+            <div class="track-title" [class.active-text]="playingTrackId === track.id">
+              {{ track.title }}
+            </div>
+            <div class="track-artist">{{ track.artist }}</div>
+          </div>
+
+          <button
+            class="btn-icon play-btn"
+            (click)="togglePreview(track.previewUrl, track.id)"
+            [disabled]="!track.previewUrl"
+            [title]="track.previewUrl ? 'Play preview' : 'No preview available'">
+
+            @if (playingTrackId === track.id) {
+              ⏸ } @else {
+              ▶ }
+          </button>
+
+          <div class="track-meta">
+            3:30
+          </div>
+        </div>
+
+      } @empty {
+        <p>No tracks found.</p>
+      }
+    </div>
+
+  } @else {
+    <p class="loading">Generating...</p>
+  }
+</div>
