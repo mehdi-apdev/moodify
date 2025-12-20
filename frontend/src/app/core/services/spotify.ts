@@ -19,7 +19,9 @@ export class SpotifyService {
    * Retourne un Observable qui contient une liste de TrackDTO
    */
   getRecommendations(): Observable<TrackDTO[]> {
-    // Appel HTTP GET vers http://localhost:3000/recommendations
-    return this.http.get<TrackDTO[]>(`${this.apiUrl}/recommendations`);
+    // On ajoute l'option 'withCredentials: true' pour envoyer le cookie
+    return this.http.get<TrackDTO[]>(`${this.apiUrl}/recommendations`, {
+      withCredentials: true
+    });
   }
 }
