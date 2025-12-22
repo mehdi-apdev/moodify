@@ -3,11 +3,18 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class Config:
-    # On utilise os.getenv avec une valeur par défaut pour éviter les crashs si .env est vide
-    CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
-    CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
-    REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI')
-    SECRET_KEY = os.getenv('FLASK_SECRET_KEY', 'dev_key') # Clé par défaut pour le dev
-    FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://127.0.0.1:4200')
-    SCOPE = 'user-library-read'
+    # Clés secrètes
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev_secret_key'
+
+    # Spotify
+    CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
+    CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
+    REDIRECT_URI = os.environ.get('SPOTIFY_REDIRECT_URI')
+
+    # Scopes (Droits demandés)
+    SCOPE = "user-library-read user-top-read playlist-read-private playlist-read-collaborative"
+
+    # Frontend
+    FRONTEND_URL = "http://127.0.0.1:4200"
