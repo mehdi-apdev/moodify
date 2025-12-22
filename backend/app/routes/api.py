@@ -26,3 +26,23 @@ def get_recommendations():
 
         # On renvoie 500 (Erreur Serveur) au lieu de 401, avec le message d'erreur
         return jsonify({'error': str(e)}), 500
+
+@api_bp.route('/playlists', methods=['POST'])
+def save_playlist():
+    access_token = request.cookies.get('spotify_access_token')
+    if not access_token:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    data = request.json
+    name = data.get('name')
+    track_ids = data.get('track_ids')
+
+    if not name or not track_ids:
+        return jsonify({'error': 'Missing name or tracks'}), 400
+
+    try:
+        result = spotify_service.create_playlist(access_token, name, track_ids)
+        return jsonify({'success': True, 'id': result['id']})
+    except Exception as e:
+        print(f"[ERROR] Save Playlist: {e}")
+        return jsonify({'error': str(e)}), 500

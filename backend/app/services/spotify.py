@@ -164,3 +164,19 @@ class SpotifyService:
         except Exception as e:
             print(f"[ERROR] Fallback total failed: {e}")
             return []
+
+    def create_playlist(self, token, name, track_ids):
+        """Crée une playlist et y ajoute les sons"""
+        sp = spotipy.Spotify(auth=token)
+
+        # 1. On récupère l'ID de l'utilisateur
+        user_id = sp.current_user()['id']
+
+        # 2. On crée la playlist vide
+        playlist = sp.user_playlist_create(user=user_id, name=name, public=False)
+
+        # 3. On ajoute les morceaux
+        if track_ids:
+            sp.playlist_add_items(playlist_id=playlist['id'], items=track_ids)
+
+        return playlist
