@@ -27,4 +27,10 @@ export class SpotifyService {
       withCredentials: true
     });
   }
+
+  createPlaylist(name: string, trackIds: string[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/playlists`, { name, track_ids: trackIds }, {
+      withCredentials: true
+    });
+  }
 }

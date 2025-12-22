@@ -1,27 +1,38 @@
 <div class="container">
-  <header class="playlist-header">
-    <h1>Your Mood Playlist</h1>
-    <div class="actions">
-      <button class="btn btn-secondary" (click)="regenerate()" [disabled]="isLoading">
-        Regenerate
-      </button>
-
-      <button class="btn btn-primary" [disabled]="isLoading">
-        Save to Spotify
-      </button>
-    </div>
-  </header>
 
   @if (playlist$ | async; as tracks) {
+
+    <header class="playlist-header">
+      <h1>Your Mood Playlist</h1>
+      <div class="actions">
+        <button class="btn btn-secondary" (click)="regenerate()" [disabled]="isLoading || isSaving">
+          Regenerate
+        </button>
+
+        <button class="btn btn-primary"
+                (click)="savePlaylist(tracks)"
+                [disabled]="isLoading || isSaving">
+          @if (isSaving) {
+            <span>Saving...</span>
+          } @else {
+            <span>Save to Spotify</span>
+          }
+        </button>
+      </div>
+    </header>
+
+    @if (successMessage) {
+      <div class="success-banner">
+        {{ successMessage }}
+      </div>
+    }
 
     @if (isLoading) {
       <div class="loading-container">
         <div class="spinner"></div>
         <p>Generating the perfect vibes for you...</p>
       </div>
-    }
-
-    @else {
+    } @else {
       <div class="track-list">
         @for (track of tracks; track track.id; let i = $index) {
           <div class="track-row" [class.is-playing]="playingTrackId === track.id">

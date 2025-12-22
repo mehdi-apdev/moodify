@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, ChangeDetectorRef } from '@angular/core'; // <--- AJOUT import
 import { CommonModule, AsyncPipe } from '@angular/common';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { switchMap, map, tap, finalize } from 'rxjs/operators';
@@ -16,11 +16,12 @@ import { ActivatedRoute } from '@angular/router';
 export class PlaylistViewComponent implements OnDestroy {
   private spotifyService = inject(SpotifyService);
   private route = inject(ActivatedRoute);
+  private cdr = inject(ChangeDetectorRef); // <--- AJOUT Injection
 
-  // État de chargement (true par défaut au démarrage)
   public isLoading = true;
+  public isSaving = false;
+  public successMessage: string | null = null;
 
-  // Déclencheur pour le bouton regenerate
   private refreshTrigger$ = new BehaviorSubject<void>(undefined);
 
   public playlist$: Observable<TrackDTO[]> = combineLatest([
@@ -28,26 +29,67 @@ export class PlaylistViewComponent implements OnDestroy {
     this.refreshTrigger$
   ]).pipe(
     map(([params]) => params['mood'] || 'happy'),
-    // 1. On active le chargement au début de la requête
-    tap(() => this.isLoading = true),
+    tap(() => {
+      this.isLoading = true;
+      this.successMessage = null;
+    }),
     switchMap(mood =>
       this.spotifyService.getRecommendations(mood).pipe(
-        // 2. On désactive le chargement à la fin (succès ou erreur)
         finalize(() => this.isLoading = false)
       )
     )
   );
 
-  // Gestion Audio
   private currentAudio: HTMLAudioElement | null = null;
   public playingTrackId: string | null = null;
 
   regenerate(): void {
-    // On force l'affichage du spinner immédiatement au clic
     this.isLoading = true;
+    this.successMessage = null;
     this.refreshTrigger$.next();
   }
 
+  savePlaylist(tracks: TrackDTO[]): void {
+    if (!tracks || tracks.length === 0 || this.isSaving) return;
+
+    this.isSaving = true;
+    this.successMessage = null;
+
+    const mood = this.route.snapshot.queryParams['mood'] || 'My Mood';
+    const name = `Moodify ${mood.charAt(0).toUpperCase() + mood.slice(1)} Mix`;
+    const trackIds = tracks.map(t => t.id);
+
+    console.log('Starting save for:', name); // Debug
+
+    this.spotifyService.createPlaylist(name, trackIds)
+      .pipe(
+        finalize(() => {
+          // C'EST ICI LA CLÉ : On force l'interface à se débloquer
+          this.isSaving = false;
+          this.cdr.detectChanges(); // <--- UPDATE FORCÉ
+          console.log('Save finished, UI updated.');
+        })
+      )
+      .subscribe({
+        next: () => {
+          console.log('Success!');
+          this.successMessage = `Playlist "${name}" saved to your library!`;
+          this.cdr.detectChanges(); // On force l'affichage du message vert
+
+          // On efface le message après 4 secondes
+          setTimeout(() => {
+            this.successMessage = null;
+            this.cdr.detectChanges(); // On force la disparition du message
+          }, 4000);
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          alert('Error saving playlist. Check console.');
+        }
+      });
+  }
+
+  // ... (Le reste : togglePreview, stopAudio, ngOnDestroy ne change pas)
   togglePreview(previewUrl: string | null, trackId: string): void {
     if (!previewUrl) return;
 
