@@ -1,54 +1,67 @@
 import { Component, inject, OnDestroy } from '@angular/core';
-import { CommonModule, AsyncPipe, NgOptimizedImage } from '@angular/common';
-import {Observable, switchMap} from 'rxjs';
+import { CommonModule, AsyncPipe } from '@angular/common';
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
+import { switchMap, map, tap, finalize } from 'rxjs/operators';
 import { SpotifyService } from '@core/services/spotify';
 import { TrackDTO } from '@shared/api-contracts';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-playlist-view',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, NgOptimizedImage],
+  imports: [CommonModule, AsyncPipe],
   templateUrl: './playlist-view.html',
   styleUrl: './playlist-view.scss'
 })
 export class PlaylistViewComponent implements OnDestroy {
   private spotifyService = inject(SpotifyService);
-  private route = inject(ActivatedRoute); // On injecte la route active pour lire l'URL
+  private route = inject(ActivatedRoute);
 
-  public playlist$: Observable<TrackDTO[]> = this.route.queryParams.pipe(
-    switchMap(params => {
-      // On récupère le mood dans l'URL (ou 'happy' par défaut)
-      const currentMood = params['mood'] || 'happy';
-      console.log('Chargement de la playlist pour :', currentMood);
+  // État de chargement (true par défaut au démarrage)
+  public isLoading = true;
 
-      // On appelle le service avec le bon mood
-      return this.spotifyService.getRecommendations(currentMood);
-    })
+  // Déclencheur pour le bouton regenerate
+  private refreshTrigger$ = new BehaviorSubject<void>(undefined);
+
+  public playlist$: Observable<TrackDTO[]> = combineLatest([
+    this.route.queryParams,
+    this.refreshTrigger$
+  ]).pipe(
+    map(([params]) => params['mood'] || 'happy'),
+    // 1. On active le chargement au début de la requête
+    tap(() => this.isLoading = true),
+    switchMap(mood =>
+      this.spotifyService.getRecommendations(mood).pipe(
+        // 2. On désactive le chargement à la fin (succès ou erreur)
+        finalize(() => this.isLoading = false)
+      )
+    )
   );
 
-  // Gestion de l'audio
+  // Gestion Audio
   private currentAudio: HTMLAudioElement | null = null;
-  public playingTrackId: string | null = null; // Pour savoir quel bouton afficher (Play ou Pause)
+  public playingTrackId: string | null = null;
+
+  regenerate(): void {
+    // On force l'affichage du spinner immédiatement au clic
+    this.isLoading = true;
+    this.refreshTrigger$.next();
+  }
 
   togglePreview(previewUrl: string | null, trackId: string): void {
     if (!previewUrl) return;
 
-    // Cas 1 : On clique sur le son déjà en cours -> On met en pause
     if (this.playingTrackId === trackId) {
       this.stopAudio();
       return;
     }
 
-    // Cas 2 : On change de son -> On stop l'ancien d'abord
     this.stopAudio();
-
-    // On lance le nouveau
     this.currentAudio = new Audio(previewUrl);
-    this.currentAudio.play();
+    this.currentAudio.volume = 0.5;
+    this.currentAudio.play().catch(err => console.error("Erreur lecture:", err));
     this.playingTrackId = trackId;
 
-    // Quand le son finit, on remet l'état à zéro
     this.currentAudio.onended = () => {
       this.playingTrackId = null;
     };
@@ -62,7 +75,6 @@ export class PlaylistViewComponent implements OnDestroy {
     }
   }
 
-  // Nettoyage si l'utilisateur quitte la page
   ngOnDestroy(): void {
     this.stopAudio();
   }
