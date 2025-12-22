@@ -1,0 +1,79 @@
+{
+  "joyeux": [
+    "indie pop",
+    "feel good",
+    "nu disco",
+    "sunshine pop",
+    "upbeat"
+  ],
+  "euphorique": [
+    "big room",
+    "progressive house",
+    "uplifting trance",
+    "festival trap",
+    "electro house"
+  ],
+  "detendu": [
+    "lo-fi beats",
+    "chillhop",
+    "neo classical",
+    "dream pop",
+    "acoustic cover"
+  ],
+  "triste": [
+    "sad indie",
+    "piano ballad",
+    "melancholic",
+    "slowcore",
+    "sad rap"
+  ],
+  "colere": [
+    "metalcore",
+    "nu metal",
+    "hardcore punk",
+    "trash metal",
+    "scream rap"
+  ],
+  "sport": [
+    "drum and bass",
+    "tech house",
+    "gymcore",
+    "power metal",
+    "hardstyle"
+  ],
+  "romantique": [
+    "contemporary r&b",
+    "bedroom pop",
+    "smooth soul",
+    "romantic ballad",
+    "slow jam"
+  ],
+  "concentration": [
+    "study beats",
+    "movie soundtrack",
+    "minimal techno",
+    "video game music",
+    "ambient piano"
+  ],
+  "voyage": [
+    "indie folk",
+    "classic rock",
+    "tropical house",
+    "folk rock",
+    "yacht rock"
+  ],
+  "soiree": [
+    "reggaeton",
+    "dance pop",
+    "pop rap",
+    "urban contemporary",
+    "afrobeats"
+  ],
+  "retro": [
+    "synthwave",
+    "80s pop",
+    "motown",
+    "classic soul",
+    "new wave"
+  ]
+}
