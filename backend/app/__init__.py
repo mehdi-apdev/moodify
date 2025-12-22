@@ -2,15 +2,16 @@ from flask import Flask
 from flask_cors import CORS
 from app.config import Config
 
-
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Configuration CORS
-    CORS(app, resources={r"/*": {"origins": Config.FRONTEND_URL}}, supports_credentials=True)
+    # Configuration CORS stricte pour 127.0.0.1
+    CORS(app,
+         resources={r"/*": {"origins": ["http://127.0.0.1:4200", "http://localhost:4200"]}},
+         supports_credentials=True)
 
-    # Enregistrement des blueprints
+    # Import des routes
     from app.routes.auth import auth_bp
     from app.routes.api import api_bp
 
