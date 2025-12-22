@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { TrackDTO } from '@shared/api-contracts';
@@ -18,9 +18,12 @@ export class SpotifyService {
    * Récupère les recommandations
    * Retourne un Observable qui contient une liste de TrackDTO
    */
-  getRecommendations(): Observable<TrackDTO[]> {
-    // On ajoute l'option 'withCredentials: true' pour envoyer le cookie
+  getRecommendations(mood: string): Observable<TrackDTO[]> {
+    // On prépare les paramètres pour l'URL (ex: ?mood=sad)
+    const params = new HttpParams().set('mood', mood);
+
     return this.http.get<TrackDTO[]>(`${this.apiUrl}/recommendations`, {
+      params, // On attache les paramètres
       withCredentials: true
     });
   }
