@@ -30,6 +30,6 @@ export class MoodSelectorComponent {
   onMoodSelect(moodId: string): void {
     console.log(`Mood selected: ${moodId}`);
     // Navigation vers la page playlist
-    this.router.navigate(['/playlist']);
+    this.router.navigate(['/playlist'], { queryParams: { mood: moodId } });
   }
 }

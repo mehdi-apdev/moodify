@@ -1,8 +1,9 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule, AsyncPipe, NgOptimizedImage } from '@angular/common';
-import { Observable } from 'rxjs';
+import {Observable, switchMap} from 'rxjs';
 import { SpotifyService } from '@core/services/spotify';
 import { TrackDTO } from '@shared/api-contracts';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-playlist-view',
@@ -13,7 +14,18 @@ import { TrackDTO } from '@shared/api-contracts';
 })
 export class PlaylistViewComponent implements OnDestroy {
   private spotifyService = inject(SpotifyService);
-  public playlist$: Observable<TrackDTO[]> = this.spotifyService.getRecommendations();
+  private route = inject(ActivatedRoute); // On injecte la route active pour lire l'URL
+
+  public playlist$: Observable<TrackDTO[]> = this.route.queryParams.pipe(
+    switchMap(params => {
+      // On récupère le mood dans l'URL (ou 'happy' par défaut)
+      const currentMood = params['mood'] || 'happy';
+      console.log('Chargement de la playlist pour :', currentMood);
+
+      // On appelle le service avec le bon mood
+      return this.spotifyService.getRecommendations(currentMood);
+    })
+  );
 
   // Gestion de l'audio
   private currentAudio: HTMLAudioElement | null = null;
