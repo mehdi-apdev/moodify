@@ -184,6 +184,11 @@ class SpotifyService:
         return playlist
 
     def save_track(self, token, track_id):
+        """Ajoute un titre aux favoris"""
         sp = spotipy.Spotify(auth=token)
-        # Ajoute le titre aux "Titres likés" de l'utilisateur
         return sp.current_user_saved_tracks_add(tracks=[track_id])
+
+    def remove_track(self, token, track_id):
+        """Retire un titre des favoris"""
+        sp = spotipy.Spotify(auth=token)
+        return sp.current_user_saved_tracks_delete(tracks=[track_id])

@@ -67,3 +67,19 @@ def save_track():
         return jsonify({'success': True})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@api_bp.route('/tracks/save', methods=['DELETE'])
+@login_required
+def remove_track():
+    access_token = request.cookies.get('spotify_access_token')
+    # Pour une requête DELETE, on passe souvent l'ID dans l'URL (query param)
+    track_id = request.args.get('track_id')
+
+    if not track_id:
+        return jsonify({'error': 'Missing track_id'}), 400
+
+    try:
+        spotify_service.remove_track(access_token, track_id)
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
