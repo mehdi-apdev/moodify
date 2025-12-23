@@ -33,4 +33,8 @@ export class SpotifyService {
       withCredentials: true
     });
   }
+
+  checkAuth(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/me`, { withCredentials: true });
+  }
 }
