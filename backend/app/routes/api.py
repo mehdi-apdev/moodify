@@ -1,5 +1,7 @@
 import traceback  # <--- Ajout important
 from flask import Blueprint, jsonify, request
+
+from app.decorators import login_required
 from app.services.spotify import SpotifyService
 
 api_bp = Blueprint('api', __name__)
@@ -7,6 +9,7 @@ spotify_service = SpotifyService()
 
 
 @api_bp.route('/recommendations')
+@login_required
 def get_recommendations():
     access_token = request.cookies.get('spotify_access_token')
 
@@ -28,6 +31,7 @@ def get_recommendations():
         return jsonify({'error': str(e)}), 500
 
 @api_bp.route('/playlists', methods=['POST'])
+@login_required
 def save_playlist():
     access_token = request.cookies.get('spotify_access_token')
     if not access_token:

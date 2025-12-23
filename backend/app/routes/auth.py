@@ -1,4 +1,6 @@
-from flask import Blueprint, redirect, request, make_response
+from flask import Blueprint, redirect, request, make_response, jsonify
+
+from app.decorators import login_required
 from app.services.spotify import SpotifyService
 from app.config import Config
 
@@ -25,9 +27,15 @@ def callback():
         'spotify_access_token',
         token_info['access_token'],
         httponly=True,  # Empêche le JS de lire le cookie (Protection XSS)
-        secure=False,  # Mettre True si tu passes en HTTPS
+        secure=False,  # Mettre True si on passes en HTTPS
         samesite='Lax',  # Protection CSRF basique
         max_age=3600  # Expire dans 1h (comme le token Spotify)
     )
 
     return response
+
+@auth_bp.route('/me')
+@login_required
+def check_auth():
+    """Route pour vérifier si le cookie est valide"""
+    return jsonify({'authenticated': True})
