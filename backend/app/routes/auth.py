@@ -12,6 +12,19 @@ spotify_service = SpotifyService()
 def login():
     return redirect(spotify_service.get_auth_url())
 
+@auth_bp.route('/logout')
+def logout():
+    response = jsonify({'success': True})
+    # On écrase le cookie avec une date d'expiration immédiate (0)
+    # On remet les mêmes sécurités (httponly, samesite) pour être sûr de cibler le bon cookie
+    response.set_cookie(
+        'spotify_access_token',
+        '',
+        expires=0,
+        httponly=True,
+        samesite='Lax')
+    return response
+
 
 @auth_bp.route('/callback')
 def callback():
