@@ -89,7 +89,6 @@ export class PlaylistViewComponent implements OnDestroy {
       });
   }
 
-  // ... (Le reste : togglePreview, stopAudio, ngOnDestroy ne change pas)
   togglePreview(previewUrl: string | null, trackId: string): void {
     if (!previewUrl) return;
 
@@ -115,6 +114,22 @@ export class PlaylistViewComponent implements OnDestroy {
       this.currentAudio = null;
       this.playingTrackId = null;
     }
+  }
+
+  logout(): void {
+    // On appelle le backend pour supprimer le cookie
+    this.spotifyService.logout().subscribe({
+      next: () => {
+        // Une fois déconnecté, on recharge l'application.
+        // Le AuthGuard détectera l'absence de cookie et renverra vers le Login.
+        window.location.href = '/';
+      },
+      error: (err) => {
+        console.error('Erreur lors de la déconnexion', err);
+        // Même en cas d'erreur, on force la redirection par sécurité
+        window.location.href = '/';
+      }
+    });
   }
 
   ngOnDestroy(): void {

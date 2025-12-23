@@ -37,4 +37,9 @@ export class SpotifyService {
   checkAuth(): Observable<any> {
     return this.http.get(`${this.apiUrl}/me`, { withCredentials: true });
   }
+
+  // Appelle le backend pour détruire le cookie
+  logout(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/logout`, { withCredentials: true });
+  }
 }
