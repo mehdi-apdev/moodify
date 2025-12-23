@@ -117,7 +117,9 @@ class SpotifyService:
                     'artist': artist_name,
                     'album': album.get('name', 'Unknown Album'),
                     'albumCoverUrl': image_url,
-                    'previewUrl': track.get('preview_url')
+                    'previewUrl': track.get('preview_url'),
+                    'spotifyUrl': track.get('external_urls', {}).get('spotify'),
+                    'duration_ms': track.get('duration_ms', 0)
                 })
                 seen_ids.add(track['id'])
             except Exception:
@@ -180,3 +182,8 @@ class SpotifyService:
             sp.playlist_add_items(playlist_id=playlist['id'], items=track_ids)
 
         return playlist
+
+    def save_track(self, token, track_id):
+        sp = spotipy.Spotify(auth=token)
+        # Ajoute le titre aux "Titres likés" de l'utilisateur
+        return sp.current_user_saved_tracks_add(tracks=[track_id])

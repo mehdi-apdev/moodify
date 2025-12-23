@@ -83,33 +83,6 @@
   }
 }
 
-.play-btn {
-  background: none;
-  border: 1px solid $spotify-subtext;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: $spotify-white;
-  cursor: pointer;
-  margin-right: 20px;
-  font-size: 12px;
-  opacity: 0; // Caché par défaut sauf si playing
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: $spotify-white;
-    transform: scale(1.1);
-  }
-
-  &:disabled {
-    opacity: 0.2;
-    cursor: not-allowed;
-  }
-}
-
 .logout {
   margin-left: 10px;
   border-color: #ff5555;
@@ -174,3 +147,84 @@
   50% { opacity: 1; }
 }
 
+/* Ajustement du conteneur d'image pour l'overlay */
+.track-img-container {
+  position: relative; /* Indispensable pour positionner l'overlay par-dessus */
+  margin-right: 16px;
+  width: 48px;
+  height: 48px;
+}
+
+/* L'overlay "Play" sur l'image */
+.play-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  opacity: 0; /* Caché par défaut */
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+
+  /* L'icône play blanche */
+  svg {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    transform: scale(1.05);
+  }
+}
+
+/* Titre cliquable */
+.track-link {
+  color: #fff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Conteneur des actions (Like + Durée) à droite */
+.track-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto; /* Pousse tout ce bloc vers la droite */
+}
+
+/* Bouton Like (Cœur) */
+.like-btn {
+  background: none;
+  border: none;
+  color: #b3b3b3; /* Gris par défaut */
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0; /* Caché par défaut pour alléger l'interface */
+  transition: all 0.2s;
+
+  &:hover {
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  /* État activé (Liké) -> Vert et toujours visible */
+  &.is-liked {
+    color: #1db954;
+    opacity: 1 !important;
+  }
+}
+
+/* Comportement au survol de la ligne */
+.track-row:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+
+  .play-overlay { opacity: 1; } /* Affiche le play */
+  .like-btn { opacity: 1; }     /* Affiche le cœur */
+}

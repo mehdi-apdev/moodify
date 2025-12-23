@@ -50,3 +50,20 @@ def save_playlist():
     except Exception as e:
         print(f"[ERROR] Save Playlist: {e}")
         return jsonify({'error': str(e)}), 500
+
+
+@api_bp.route('/tracks/save', methods=['POST'])
+@login_required
+def save_track():
+    access_token = request.cookies.get('spotify_access_token')
+    data = request.json
+    track_id = data.get('track_id')
+
+    if not track_id:
+        return jsonify({'error': 'Missing track_id'}), 400
+
+    try:
+        spotify_service.save_track(access_token, track_id)
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

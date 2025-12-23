@@ -16,13 +16,14 @@ import { ActivatedRoute } from '@angular/router';
 export class PlaylistViewComponent implements OnDestroy {
   private spotifyService = inject(SpotifyService);
   private route = inject(ActivatedRoute);
-  private cdr = inject(ChangeDetectorRef); // <--- AJOUT Injection
+  private cdr = inject(ChangeDetectorRef);
 
   public isLoading = true;
   public isSaving = false;
   public successMessage: string | null = null;
 
   private refreshTrigger$ = new BehaviorSubject<void>(undefined);
+  public likedTrackIds: Set<string> = new Set();
 
   public playlist$: Observable<TrackDTO[]> = combineLatest([
     this.route.queryParams,
@@ -130,6 +131,32 @@ export class PlaylistViewComponent implements OnDestroy {
         window.location.href = '/';
       }
     });
+  }
+
+  likeTrack(trackId: string): void {
+    if (this.likedTrackIds.has(trackId)) return; // Déjà liké
+
+    this.spotifyService.saveTrack(trackId).subscribe({
+      next: () => {
+        this.likedTrackIds.add(trackId); // On remplit le cœur
+        console.log(`Track ${trackId} liked!`);
+      },
+      error: (err) => console.error('Error liking track:', err)
+    });
+  }
+
+  openSpotify(url: string | undefined): void {
+    if (url) window.open(url, '_blank');
+  }
+
+  formatDuration(ms: number): string {
+    if (!ms) return '-:--';
+
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+
+    // On ajoute un '0' devant les secondes si < 10 (ex: 3:05)
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
 
   ngOnDestroy(): void {

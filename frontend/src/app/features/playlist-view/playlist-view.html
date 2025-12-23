@@ -19,8 +19,7 @@
           }
         </button>
 
-        <button class="btn btn-secondary logout"
-                (click)="logout()">
+        <button class="btn btn-secondary logout" (click)="logout()">
           Logout
         </button>
       </div>
@@ -28,7 +27,7 @@
 
     @if (successMessage) {
       <div class="success-banner">
-        {{ successMessage }}
+        ✅ {{ successMessage }}
       </div>
     }
 
@@ -37,10 +36,13 @@
         <div class="spinner"></div>
         <p>Generating the perfect vibes for you...</p>
       </div>
-    } @else {
+    }
+
+    @else {
       <div class="track-list">
         @for (track of tracks; track track.id; let i = $index) {
-          <div class="track-row" [class.is-playing]="playingTrackId === track.id">
+          <div class="track-row">
+
             <span class="track-index">{{ i + 1 }}</span>
 
             <div class="track-img-container">
@@ -52,24 +54,43 @@
                 height="48"
                 style="object-fit: cover; border-radius: 4px;"
               >
+              <div class="play-overlay" (click)="openSpotify(track.spotifyUrl)" title="Open in Spotify">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                  <path d="M8 5v14l11-7z"/> </svg>
+              </div>
             </div>
 
             <div class="track-info">
-              <div class="track-title" [class.active-text]="playingTrackId === track.id">
-                {{ track.title }}
+              <div class="track-title" [class.active-text]="likedTrackIds.has(track.id)">
+                <a [href]="track.spotifyUrl" target="_blank" class="track-link">
+                  {{ track.title }}
+                </a>
               </div>
               <div class="track-artist">{{ track.artist }}</div>
             </div>
 
-            <button
-              class="btn-icon play-btn"
-              (click)="togglePreview(track.previewUrl, track.id)"
-              [disabled]="!track.previewUrl"
-              [title]="track.previewUrl ? 'Play preview' : 'No preview available'">
-              @if (playingTrackId === track.id) { ⏸ } @else { ▶ }
-            </button>
+            <div class="track-actions">
 
-            <div class="track-meta">3:30</div>
+              <button class="btn-icon like-btn"
+                      (click)="likeTrack(track.id)"
+                      [class.is-liked]="likedTrackIds.has(track.id)"
+                      [title]="likedTrackIds.has(track.id) ? 'Saved to Liked Songs' : 'Save to Liked Songs'">
+
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  @if (likedTrackIds.has(track.id)) {
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  } @else {
+                    <path d="M12.1 18.55L12 18.65l-0.1-0.1l-3.6-3.25C5.2 12.55 3 10.4 3 8.5c0-1.9 1.6-3.5 3.5-3.5c1.15 0 2.25 0.6 2.9 1.6h1.2c0.65-1 1.75-1.6 2.9-1.6c1.9 0 3.5 1.6 3.5 3.5c0 1.9-2.2 4.05-5.3 6.8l-3.6 3.25zM16.5 3c-1.74 0-3.41 0.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3C4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5C22 5.42 19.58 3 16.5 3z"/>
+                  }
+                </svg>
+              </button>
+
+              <div class="track-meta">
+                {{ formatDuration(track.duration_ms) }}
+              </div>
+              
+            </div>
+
           </div>
         } @empty {
           <p>No tracks found.</p>

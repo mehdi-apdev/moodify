@@ -14,6 +14,5 @@ class Config:
     REDIRECT_URI = os.environ.get('SPOTIFY_REDIRECT_URI')
 
     # Scopes (Droits demandés)
-    SCOPE = "user-library-read user-top-read playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private"
-    # Frontend
+    SCOPE = "user-library-read user-library-modify user-top-read playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private"    # Frontend
     FRONTEND_URL = "http://127.0.0.1:4200"

@@ -42,4 +42,10 @@ export class SpotifyService {
   logout(): Observable<any> {
     return this.http.get(`${this.apiUrl}/logout`, { withCredentials: true });
   }
+
+  saveTrack(trackId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/tracks/save`, { track_id: trackId }, {
+      withCredentials: true
+    });
+  }
 }

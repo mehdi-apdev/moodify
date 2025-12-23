@@ -72,6 +72,8 @@ export interface TrackDTO {
   previewUrl: string | null; 
   
   externalUrl: string;   // Lien profond pour ouvrir dans l'app Spotify
+  spotifyUrl?: string;
+  duration_ms: number;
 }
 
 export interface PlaylistResponseDTO {
