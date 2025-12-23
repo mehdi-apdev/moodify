@@ -48,4 +48,11 @@ export class SpotifyService {
       withCredentials: true
     });
   }
+
+  unlikeTrack(trackId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/tracks/save`, {
+      params: { track_id: trackId },
+      withCredentials: true
+    });
+  }
 }

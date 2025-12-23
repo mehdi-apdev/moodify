@@ -133,16 +133,34 @@ export class PlaylistViewComponent implements OnDestroy {
     });
   }
 
-  likeTrack(trackId: string): void {
-    if (this.likedTrackIds.has(trackId)) return; // Déjà liké
+  toggleLike(trackId: string): void {
+    if (this.likedTrackIds.has(trackId)) {
+      // CAS 1 : DÉJÀ LIKÉ -> ON RETIRE
+      this.spotifyService.unlikeTrack(trackId).subscribe({
+        next: () => {
+          this.likedTrackIds.delete(trackId);
 
-    this.spotifyService.saveTrack(trackId).subscribe({
-      next: () => {
-        this.likedTrackIds.add(trackId); // On remplit le cœur
-        console.log(`Track ${trackId} liked!`);
-      },
-      error: (err) => console.error('Error liking track:', err)
-    });
+          // IMPORTANT : On force la mise à jour visuelle immédiate
+          this.cdr.detectChanges();
+
+          console.log(`Track ${trackId} unliked!`);
+        },
+        error: (err) => console.error('Error unliking track:', err)
+      });
+    } else {
+      // CAS 2 : PAS ENCORE LIKÉ -> ON AJOUTE
+      this.spotifyService.saveTrack(trackId).subscribe({
+        next: () => {
+          this.likedTrackIds.add(trackId);
+
+          // IMPORTANT : On force la mise à jour visuelle immédiate
+          this.cdr.detectChanges();
+
+          console.log(`Track ${trackId} liked!`);
+        },
+        error: (err) => console.error('Error liking track:', err)
+      });
+    }
   }
 
   openSpotify(url: string | undefined): void {

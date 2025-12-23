@@ -72,9 +72,9 @@
             <div class="track-actions">
 
               <button class="btn-icon like-btn"
-                      (click)="likeTrack(track.id)"
+                      (click)="toggleLike(track.id)"
                       [class.is-liked]="likedTrackIds.has(track.id)"
-                      [title]="likedTrackIds.has(track.id) ? 'Saved to Liked Songs' : 'Save to Liked Songs'">
+                      [title]="likedTrackIds.has(track.id) ? 'Remove from Liked Songs' : 'Save to Liked Songs'">
 
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                   @if (likedTrackIds.has(track.id)) {
@@ -88,7 +88,7 @@
               <div class="track-meta">
                 {{ formatDuration(track.duration_ms) }}
               </div>
-              
+
             </div>
 
           </div>
