@@ -1,54 +1,51 @@
 from flask import Blueprint, redirect, request, make_response, jsonify
-
 from app.decorators import login_required
-from app.services.spotify import SpotifyService
+from app.services.spotify.auth_manager import SpotifyAuthManager
+from app.services.spotify.spotify_service import SpotifyService
 from app.config import Config
 
 auth_bp = Blueprint('auth', __name__)
-spotify_service = SpotifyService()
+
+auth_manager = SpotifyAuthManager()
+spotify_service = SpotifyService(auth_manager)
 
 
 @auth_bp.route('/login')
 def login():
-    return redirect(spotify_service.get_auth_url())
+    return redirect(spotify_service.auth_manager.get_auth_url())
+
 
 @auth_bp.route('/logout')
 def logout():
     response = jsonify({'success': True})
-    # On écrase le cookie avec une date d'expiration immédiate (0)
-    # On remet les mêmes sécurités (httponly, samesite) pour être sûr de cibler le bon cookie
     response.set_cookie(
         'spotify_access_token',
         '',
         expires=0,
         httponly=True,
-        samesite='Lax')
+        samesite='Lax'
+    )
     return response
 
 
 @auth_bp.route('/callback')
 def callback():
     code = request.args.get('code')
-    token_info = spotify_service.get_token(code)
+    token_info = spotify_service.auth_manager.get_token(code)
 
-    # Au lieu de stocker dans session['token_info'], on prépare la redirection
     response = make_response(redirect(f"{Config.FRONTEND_URL}/"))
-
-    # On injecte le token d'accès dans un cookie sécurisé
-    # Note : En prod, secure doit être True (HTTPS). En dev local, False est requis.
     response.set_cookie(
         'spotify_access_token',
         token_info['access_token'],
-        httponly=True,  # Empêche le JS de lire le cookie (Protection XSS)
-        secure=False,  # Mettre True si on passes en HTTPS
-        samesite='Lax',  # Protection CSRF basique
-        max_age=3600  # Expire dans 1h (comme le token Spotify)
+        httponly=True,
+        secure=False,
+        samesite='Lax',
+        max_age=3600
     )
-
     return response
+
 
 @auth_bp.route('/me')
 @login_required
 def check_auth():
-    """Route pour vérifier si le cookie est valide"""
     return jsonify({'authenticated': True})

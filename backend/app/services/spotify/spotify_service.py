@@ -1,31 +1,16 @@
 import spotipy
-from spotipy.oauth2 import SpotifyOAuth
-import time
 import random
-from app.config import Config
+
+from app.services.spotify.auth_manager import SpotifyAuthManager
 
 
 class SpotifyService:
-    def __init__(self):
-        self.auth_manager = SpotifyOAuth(
-            client_id=Config.CLIENT_ID,
-            client_secret=Config.CLIENT_SECRET,
-            redirect_uri=Config.REDIRECT_URI,
-            scope=Config.SCOPE
-        )
-
-    def get_auth_url(self):
-        return self.auth_manager.get_authorize_url()
-
-    def get_token(self, code):
-        return self.auth_manager.get_access_token(code)
-
-    def is_token_expired(self, token_info):
-        now = int(time.time())
-        return token_info['expires_at'] - now < 60
+    def __init__(self, auth_manager: SpotifyAuthManager):
+        self.auth_manager = auth_manager
 
     def get_recommendations(self, token, mood):
-        sp = spotipy.Spotify(auth=token)
+        # On utilise le manager pour obtenir un client prêt à l'emploi
+        sp = self.auth_manager.get_client(token)
 
         # 1. Définition des critères audio (Target Features)
         mood_features = {
